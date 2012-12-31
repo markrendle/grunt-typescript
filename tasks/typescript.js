@@ -20,6 +20,7 @@ module.exports = function(grunt) {
     var options = helpers.options(this);
     var cb = this.async();
     var args = helpers.optsToArgs(options);
+    var tsc = this.data.tsc || 'tsc';
 
     grunt.verbose.writeflags(options, 'Options');
 
@@ -38,12 +39,15 @@ module.exports = function(grunt) {
       grunt.file.write(el.dest, '');
 
       grunt.util.spawn({
-        cmd: 'tsc',
+        cmd: tsc,
         args: args
       }, function(error, result, code){
         cb2(code > 0);
       }).on('exit', function (code){
-        if (code !== 0) {
+        if (code === 127) {
+          grunt.fail.fatal('Command ' + tsc + ' not found.');
+        }
+        else if (code !== 0) {
           grunt.fail.fatal('Error code ' + code + ' returned from tsc.');
         }
       });
