@@ -9,8 +9,8 @@ grunt.initConfig({
     typescript: {
         compile: {
           files: {
-            'utils.js': 'utils.ts'
-            'app.js': ['app.ts', 'services.ts'],
+            'utils.js': 'utils.ts',
+            'app.js': ['app.ts', 'services.ts']
           },
           options: {
             comments: true,
